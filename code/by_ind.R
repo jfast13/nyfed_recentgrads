@@ -13,8 +13,25 @@ by_ind_all <- cps_basic |>
             .by = c(year_new, mind03)) |> 
    mutate(group = "all_16plus")
 
+by_ind_all_grads <- cps_basic |>
+  filter(age >= 16, educ==4) |>
+  summarize(employment = sum(wgt * emp, na.rm = TRUE), 
+            sample = n(), 
+            .by = c(year_new, mind03)) |> 
+   mutate(group = "all_grads")
+
+
+by_ind_22_27 <- cps_basic |>
+  filter(age >= 22, age<=27) |>
+  summarize(employment = sum(wgt * emp, na.rm = TRUE), 
+            sample = n(), 
+            .by = c(year_new, mind03)) |> 
+   mutate(group = "all_22_27")
+
 by_ind = by_ind_all |> 
   bind_rows(by_ind_grads) |> 
+  bind_rows(by_ind_all_grads) |> 
+  bind_rows(by_ind_22_27) |> 
   arrange(group, mind03) |> 
   pivot_wider(names_from = c(mind03), values_from = c(employment, sample))
 
