@@ -1,15 +1,14 @@
  
 ## ANNUAL STATISTICS  
-
-lf_stats <- cps_basic |>                                                                                                            
-    filter(age >= 22, age <= 27, educ==4) |>
+lf_stats <- cps_basic |> 
+    filter(age >= 55, age <= 64) |>
     summarize(epop= weighted.mean(emp, wgt, na.rm = TRUE), 
               unemp = weighted.mean(unemp[emp == 1 | unemp == 1], wgt[emp == 1 | unemp == 1], na.rm = TRUE), 
               employment= sum(wgt * emp,na.rm = TRUE), 
               labor_force = sum(wgt[lf], na.rm = TRUE), 
               idled = weighted.mean(idled, wgt, na.rm = TRUE),
               population = sum(wgt,na.rm = TRUE ),
-              .by = year_new) 
+              .by = c(year, month)) 
 
 write.csv(lf_stats, "outputs/lf_stats.csv", row.names = FALSE)
 
@@ -41,7 +40,7 @@ write_csv(lf_stats_unemp_demo, "outputs/lf_stats_unemp_demo.csv")
 # Use basicwgt (not the pre-divided wgt) so that dividing levels by n_months is
 # always correct regardless of how many months fall in each window.
 monthly_sums <- cps_basic |>
-  filter(age >= 22, age<=27, educ==4) |>
+  filter(age >= 55, age<=64) |>
   summarize(
     wgt_total  = sum(basicwgt, na.rm = TRUE),
     wgt_emp    = sum(basicwgt * emp, na.rm = TRUE),

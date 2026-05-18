@@ -3,11 +3,11 @@ library(tidyverse)
 library(MetricsWeighted)
 library(zoo)
 library(slider)
-library(openxlsx)
+library(openxlsx2)
 library(epidatatools)
 library(fixest)
 
-cps_basic <- load_basic(1979:2026, year, month, age, basicwgt, finalwgt, unemp, lfstat, schenrl, educ, emp, selfemp, mocc03, mind03, ind22, ind17, wbhao, female) |> 
+cps_basic <- load_basic(1979:2026, year, month, age, basicwgt, finalwgt, unemp, pubsec, lfstat, schenrl, educ, emp, selfemp, mocc03, docc03, mind03, ind22, ind17, wbhao, female, occ18) |> 
   mutate(year_new = if_else(month >= 4, year + 1L, year),
          wgt = if_else(year_new==2026, basicwgt/11, basicwgt/12),
          lf = lfstat %in% c(1L, 2L),

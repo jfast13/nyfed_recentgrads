@@ -24,7 +24,7 @@ by_tech_all_grads <- cps_basic |>
   )
 
 by_tech_young <- cps_basic |>
-  filter(age >= 22, age <= 27) |>
+  filter(age >= 22, age <= 27, educ<4) |>
   summarize(
     tech_emp_22_27 = sum(wgt * tech_ind, na.rm = TRUE),
     sample_grads   = sum(tech_ind),

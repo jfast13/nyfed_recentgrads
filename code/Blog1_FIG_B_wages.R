@@ -45,6 +45,7 @@ wage_gaps = bind_rows(
     )) |>
     filter(!is.na(group))
 ) |>
+  ## This is how I am coding the 36 month rolling average
   cross_join(tibble(offset = 0:2)) |>
   mutate(year_new = year_new + offset) |>
   summarize(
